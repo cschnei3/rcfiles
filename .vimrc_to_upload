@@ -155,9 +155,6 @@ map <leader> ^
 "| insert newline above current line in insert mode and normal mode
 map \| mz O<ESC> 'z
 
-
-
-
 "\ insert newline below current line
 map \ mz o<ESC> `z
 
