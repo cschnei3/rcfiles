@@ -1,0 +1,189 @@
+set nocompatible
+"not compatiiiiiible with the old stuff
+
+set viminfo='20,<1000,s10,h
+
+
+"detect cilk files
+au BufRead,BufNewFile *.cilk set filetype=cilk
+
+" Searching
+set ignorecase
+set smartcase
+set incsearch
+set showmatch
+set hlsearch
+
+"theme
+let moria_style="light"
+
+"enable all this stuff to turn on syntax highlighting and filetype detection
+"to execute other .vim scripts
+filetype indent plugin on
+syntax on
+
+" Tell vim to remember certain things when we exit
+"  '10  :  marks will be remembered for up to 10 previously edited files
+"  "100 :  will save up to 100 lines for each register
+"  :20  :  up to 20 lines of command-line history will be remembered
+"  %    :  saves and restores the buffer list
+"  n... :  where to save the viminfo files
+set viminfo='10,\"100,:20,%,n~/.viminfo
+
+" Backups
+set history=1000
+set undolevels=1000
+set nobackup
+
+function! ResCur()
+    if line("'\"") <= line("$")
+        normal! g`"
+        return 1
+    endif
+endfunction
+
+augroup resCur
+    autocmd!
+    autocmd BufWinEnter * call ResCur()
+augroup END
+
+"if the file is edited elsewhere, reload it
+set autoread
+
+"write the file out before commands like :make and :next
+set autowrite
+
+"draw vertical line at 80th column
+"set colorcolumn=80
+
+"command bar at the bottom is two characters high instead of one
+set cmdheight=2
+
+"errorbells are lame
+set noerrorbells
+set novisualbell
+
+"ruler to show line and column numbers on the bottom
+set ruler
+
+"show line numbers
+set number
+
+"make sure backspace works
+set bs=2
+
+" UI
+set nostartofline
+set showmode
+set noshowcmd
+set ttyfast
+set laststatus=2
+set nolist
+set foldlevelstart=0
+set foldmethod=marker
+set formatoptions=tcq
+set nowrap
+
+if $TERM == 'xterm-color' && &t_Co == 8
+    set t_Co=16
+endif
+
+let mapleader=','
+
+""puts you on the first charicter
+""map <leader>i I
+"show a command as it's being entered in the command bar
+set showcmd
+
+"show 2 lines above and below current position at all times
+set scrolloff=2
+
+"when placing a bracket, brace, or parenthese, jump to the other for a second
+set showmatch
+
+"4 space tabs (actual spaces)
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+
+"c-style autoindentation
+"custom .vim scripts for other languages (python most importantly)
+set cindent
+
+"show name of current file in terminal title
+set title
+
+"""""""""""""""""""KEYMAPPING"""""""""""""""""""
+"I always do things like :Wq or :WQ
+"this effectively makes these commands case insensitive
+command W w
+command Q q
+command WQ wq
+command Wq wqa
+
+"turn on/off paste mode with F2
+set pastetoggle=<F2>
+
+"turn on/off spellcheck with F3
+map <F3> <ESC>:setlocal spell!<RETURN>
+
+"Q -- :noh (clear highlighting)
+map Q :noh<RETURN>
+
+"Y -- yank til end of line
+map Y y$
+
+"cd -- clear line.  delete all characters on line without deleting line itself
+map cd cc<ESC>
+
+"S -- split line at char under cursor
+map S i<RETURN><ESC>==k$
+
+"-- break lke at 80th character, but don't break a WORD in half
+"this depends on S being defined as it is above.
+map -- 080lBShj
+
+"jj  -- jump out of insert mode
+imap jj <ESC>
+
+"HOME moves to first non blank char
+map <leader> ^
+"imap <leader> <ESC>I
+
+
+"| insert newline above current line in insert mode and normal mode
+map \| mz O<ESC> 'z
+
+
+
+
+"\ insert newline below current line
+map \ mz o<ESC> `z
+
+"swaps with the line below
+nmap <leader>k mz:m+<cr>`z
+nmap <leader>j mz:m-2<cr>`z
+vmap <leader>k :m'>+<cr>`<my`>mzgv`yo`z
+vmap <leader>j :m'<-2<cr>`>my`<mzgv`yo`z
+
+"to move well in multiple windows
+map <C-j> <C-W>j
+map <C-l> <C-W>l
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+
+"mark the begining of the line I am currently on 
+map Mq mz0mq`z
+map Mw mz0mw`z
+map Me mz0me`z
+map Mr mz0mr`z
+map Mt mz0mt`z
+map My mz0my`z
+map Mu mz0mu`z
+
+"visually select text that was last edited
+nmap gV `[v`]
+
+" Clear the search highlight
+map <leader> \ :silent nohlsearch<cr>
