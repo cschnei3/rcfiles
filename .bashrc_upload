@@ -1,0 +1,39 @@
+
+export TERM="xterm-color"
+PS1='\[\e[0;33m\]\u\[\e[0m\]@\[\e[0;32m\]\h\[\e[0m\]:\[\e[0;34m\]\w\[\e[0m\]\$'
+set -o vi
+alias cb='cd ../ && ls'
+
+alias gg="g++ -fdiagnostics-color=auto -std=c++11 -pedantic -Wall -Wextra"
+alias g="gcc -fdiagnostics-color=auto -std=c99 -pedantic -Wall -Wextra"
+alias clg="clang++  -fdiagnostics-color=auto -std=c++11 -pedantic -Wall -Wextra"
+alias cpp="clang++  -fdiagnostics-color=auto -std=c++11 -pedantic -Wall -Wextra"
+
+cs() { builtin cd "$@" && ls; }
+alias del='rm'                                                                                       
+alias ..='cd ..'                                                                     
+alias ...='cd ../..' 
+alias ....='cd ../../..'
+cd() { builtin cd "$@" && ls; }
+alias c='cd ../ && ls'
+alias b='cd ..'
+export CLICOLOR=1
+export LSCOLORS=ExFxCxDxBxegedabagacad
+
+cs() { builtin cd "$@" && ls; }
+
+# my_ls -- recursively list given directory's contents and subdirectories
+# $1=directory whose contents to list
+# $2=indentation when listing
+my_ls() {
+    pushd "$1" >/dev/null
+    for file in * ; do
+        test -e "$file" && echo "$2$file"
+        test -d "$file" && my_ls "$file" "$2  "
+    done
+    popd >/dev/null
+}
+
+set -o vi
+mkd() { mkdir "$@" && cd "$@"; } 
+
